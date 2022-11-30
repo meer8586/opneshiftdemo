@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Shared Files and Folders</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <div th:replace="fragments/header :: header"/>
+</head>
+<body>
+<div th:replace="fragments/header :: nav-bar"/>
+<br><br>
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-8"><br>
+<table class="table">
+    <thead class="table-primary">
+        <tr>
+            <th>Name</th>
+            <th>Shared With</th>
+            <th>Remove Permission</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="sharedFolder:${folders}">
+            <td th:each="folder:${sharedFolder.getFolder()}">
+                <i class="fas fa-folder"></i>&nbsp;&nbsp;
+                <span th:text="${folder.getFolderName()}"></span>
+            </td>
+            <td th:each="user:${sharedFolder.getUser()}">
+                <span th:text="${user.getName()}"></span>
+            </td>
+            <td>
+                <form th:action="@{/Remove/FolderPermission}" method="post">
+                    <input type="hidden" id="sharedFolderId" name="sharedFolderId" th:value="${sharedFolder.getId()}">
+                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                            onclick="if (!(confirm('Are you sure you want to Remove this?'))) return false">Remove</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+    <!--
+</table>
+
+<table class="table">
+    <thead class="table-primary">
+    <tr>
+        <th>Files</th>
+        <th>Shared with</th>
+        <th>Remove Permission</th>
+    </tr>
+    </thead>
+    <tbody>
+    -->
+    <tr th:each="sharedFile:${files}">
+        <td th:each="file:${sharedFile.getFile()}">
+            <i class="fas fa-file"></i>&nbsp;&nbsp;
+            <span th:text="${file.getFileName()}"></span>
+        </td>
+        <td th:each="user:${sharedFile.getUser()}">
+            <span th:text="${user.getName()}"></span>
+        </td>
+        <td>
+            <form method="post" th:action="@{/Remove/FilePermission}">
+                <input type="hidden" id="sharedFileId" name="sharedFileId" th:value="${sharedFile.getId()}">
+                <button type="submit" class="btn btn-outline-danger btn-sm"
+                        onclick="if (!(confirm('Are you sure you want to Remove this?'))) return false">Remove</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+        </div>
+        <div class="col-md-4">
+            <!-- Search Widget -->
+            <div class="card my-4">
+                <h5 class="card-header" style="background-color: #b8daff">Search</h5>
+                <div class="card-body">
+                    <form method="get" action="/home">
+                        <div class="input-group" >
+                            <input type="text" class="form-control" name="search" placeholder="Search for...">
+                            <span class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Go!</button>
+              </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Search Widget -->
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/jquery-email-multiple.js}"></script>
+</body>
+</html>

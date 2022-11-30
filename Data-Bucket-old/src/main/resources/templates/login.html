@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta charset="ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Login || DataBucket</title>
+    <link rel="icon" type="image/x-icon" href="css/assets/images2.png" />
+    <link th:href="@{css/reset.css}" rel="stylesheet">
+    <link th:href="@{css/login.css}" rel="stylesheet">
+    <link th:href="@{css/blog-home.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.min.css}">
+    
+</head>
+
+<body>
+
+<!--navbar-->
+<div class="nav-bar">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
+        <div class="container">
+            <a class="navbar-brand" href="#">DataBucket</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                     <li class="nav-item" >
+                        <a class="nav-link" th:href="@{/}">Home</a>
+                    </li>      
+                                             
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+                    </li>
+                    <!-- show login only if user is not yet authenticated -->
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/login}">Sign In</a>
+                    </li>
+                    <!-- show My Blog only if user is authenticated -->
+                    
+                   
+                   
+
+                   
+                                                                                                           
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<br><br>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-12 col-lg-11 col-xl-10">
+            <div class="card d-flex mx-auto my-5">
+                <div class="row">
+                    <div class="col-md-5 col-sm-12 col-xs-12 c1 p-5">
+                         <img src="https://img.freepik.com/free-vector/automatic-backup-abstract-concept-illustration_335657-3733.jpg?w=740&t=st=1663653998~exp=1663654598~hmac=4a456810d45e0755add64390530345711dde0a0f43572d1debd262350f4e8cff" width="240vw" height="210vh" class="mx-auto d-flex" alt="Teacher">
+                        <div class="row justify-content-center">
+                            <div class="w-75 mx-md-5 mx-1 mx-sm-2 mb-5 mt-4 px-sm-5 px-md-2 px-xl-1 px-2">
+                                <h1 class="wlcm">Welcome to your DataBucket</h1> <span class="sp1"> <span class="px-3 rounded-pill"></span> <span class="ml-2 px-1 rounded-circle"></span> <span class="ml-2 px-1 rounded-circle"></span> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-sm-12 col-xs-12 c2 px-5 pt-5">
+                        <form  th:action="@{/login}" method="post"name="myform" onsubmit="" class="px-5 pb-5">
+                        
+                        	<div th:if="${param.error}">
+            					<p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+        					</div>
+        					
+        					<div th:if="${param.logout}">
+            					<p class="text-warning">You have been logged out.</p>
+        					</div>
+        					
+                            <div class="d-flex"> <img src="https://i.imgur.com/oGcceAH.jpg" height="22px" width="22px" alt="" class="mr-3 mt-2">
+                                <h3 class="font-weight-bold">Log in</h3>
+                            </div> 
+                            	<label class="form-label" for="form3Example1c">User Name</label>
+                            	<input type="email" name="username" placeholder="User Name" required> 
+                            	<label class="form-label" for="form3Example1c">Password</label>
+                            	<input type="password" name="password" placeholder="Password" required> 
+                            	 
+                            	
+                            	<input type="submit"  name="submit" value="Login" class="text-white text-weight-bold bt" />
+                            
+                        </form>
+                        <span>Don't have an account, &nbsp;<a href="/signup">Register</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+</body>
+</html>

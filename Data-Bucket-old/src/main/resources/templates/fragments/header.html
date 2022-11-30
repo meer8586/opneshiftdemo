@@ -1,0 +1,69 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Dropbox</title>
+    <div th:fragment="header">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    </div>
+</head>
+<body>
+<!--navbar-->
+<div th:fragment="nav-bar">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
+        <div class="container">
+            <a class="navbar-brand" href="#">DataBucket</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                                             
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+                    </li>
+                    <!-- show login only if user is not yet authenticated -->
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <a class="nav-link" th:href="@{/login}">Sign In</a>
+                    </li>
+                    <!-- show My Blog only if user is authenticated -->
+                    <li class="nav-item" sec:authorize="hasRole('USER')">
+                        <a class="nav-link" th:href="@{/home}">Home</a>
+                    </li>
+                    <!-- show new post only if user is authenticated -->
+                    <li class="nav-item" sec:authorize="hasRole('USER')">
+                        <a class="nav-link" th:href="@{/SharedByMe}">Shared By Me</a>
+                    </li>
+                    <!-- show new post only if user is authenticated -->
+                    <li class="nav-item" sec:authorize="hasRole('USER')">
+                        <a class="nav-link" th:href="@{/SharedWithMe}">Shared With Me</a>
+                    </li>
+
+                    <!-- show sign out only if user is authenticated -->
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/logout}">Sign Out</a>
+                       
+                    </li>
+                                                                                         
+                    <li class="nav-link" style="color:white;">
+                        <span th:text="${currentuser}" th:remove="tag"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+</body>
+</html>
+
+
+<!--<ul class="nav navbar-nav navbar-right" sec:authorize="isAuthenticated()">
+    <span style="color:white" sec:authentication="name"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+</ul>-->

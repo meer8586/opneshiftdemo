@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Shared With Me</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <div th:replace="fragments/header :: header"/>
+</head>
+<body>
+<div th:replace="fragments/header :: nav-bar"/>
+<br><br>
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-8">
+            <br>
+<table class="table">
+    <thead class="table-primary">
+      <tr>
+        <th>Name</th>
+        <th>Shared by</th>
+        <th>Download</th>
+      </tr>
+    </thead>
+    <tbody>
+    <div th:if="${param.folderId!=null}">
+        <tr>
+            <td>
+                <form method="post" th:action="@{'/SharedFolder/prevPage'}">
+                    <input th:if="${param.folderId != null}" type="hidden" name="folderId" th:value="${param.folderId}">
+                    <button class="btn btn-sm badge-pill" type="submit">Prev Page</button>
+                </form>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    </div>
+    <tr th:each="folder : ${folders}">
+        <td><i class="fas fa-folder"></i>&nbsp;&nbsp;<a th:href="@{/SharedWithMe/(folderId=${folder.id})}" th:text="${folder.folderName}"></a></td>
+        <td th:each="user:${folder.getUser()}">
+            <span th:text="${user.getName()}"></span>
+        </td>
+        <td>
+            <a target="_blank" th:href="@{'/downloadFolder/{id}'(id=${folder.id})}"><button class="btn btn-outline-secondary btn-sm">Download</button></a>
+        </td>
+    </tr>
+    </tbody>
+    <!--
+</table>
+
+<table class="table">
+    <thead class="table-primary">
+        <th>Files</th>
+        <th>Shared by</th>
+        <th>Download</th>
+    </thead>
+    -->
+    <tbody>
+    <tr th:each="file : ${files}">
+        <td>
+            <i class="fas fa-file"></i>&nbsp;&nbsp;
+            <span th:text="${file.getFileName()}"></span>
+        </td>
+        <td th:each="user : ${file.getUser()}">
+            <span th:text="${user.getName()}"></span>
+        </td>
+        <td>
+            <a target="_blank" th:href="@{'/download/{id}'(id=${file.id})}"><button class="btn btn-outline-secondary btn-sm">Download</button></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+        </div>
+        <div class="col-md-4">
+            <!-- Search Widget -->
+            <div class="card my-4">
+                <h5 class="card-header" style="background-color: #b8daff">Search</h5>
+                <div class="card-body">
+                    <form method="get" action="/home">
+                        <div class="input-group" >
+                            <input type="text" class="form-control" name="search" placeholder="Search for...">
+                            <span class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Go!</button>
+              </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Search Widget -->
+        </div>
+    </div>
+</div>
+</body>
+</html>

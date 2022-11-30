@@ -1,0 +1,22 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIASFXPOKGZZZYSPQWQ
+      secret-key: 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
+    region:
+      static: ap-south-1
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: mydatabucket007 #data-bucket-storage
+
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB

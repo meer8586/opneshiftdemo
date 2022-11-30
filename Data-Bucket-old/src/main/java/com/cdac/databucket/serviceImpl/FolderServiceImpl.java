@@ -1,0 +1,182 @@
+package com.cdac.databucket.serviceImpl;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+
+import com.cdac.databucket.entity.File;
+import com.cdac.databucket.entity.Folder;
+import com.cdac.databucket.entity.RandomFolderId;
+import com.cdac.databucket.entity.User;
+import com.cdac.databucket.repository.FileRepository;
+import com.cdac.databucket.repository.FolderRepository;
+import com.cdac.databucket.repository.RandomFolderIdRepository;
+import com.cdac.databucket.repository.UserRepository;
+import com.cdac.databucket.service.FolderService;
+import com.cdac.databucket.service.StorageService;
+import com.cdac.databucket.specification.FolderSpecification;
+
+
+
+
+
+@Service
+public class FolderServiceImpl implements FolderService {
+
+	@Autowired
+	private FolderRepository folderRepository;
+	@Autowired
+    private FolderSpecification folderSpecification;
+	@Autowired
+	
+    private UserRepository userRepository;
+	@Autowired
+    private FileRepository fileRepository;
+	@Autowired
+    private StorageService storageService;
+	@Autowired
+	private RandomFolderIdRepository randomFolderIdRepository;
+	
+	
+	@Override
+	public List<Folder> findFoldersInsideFolder(Optional<Integer> folderId, String username, Optional<String> search) {
+		// TODO Auto-generated method stub
+		 if (search.isPresent()) {
+	            return folderRepository.findAll(folderSpecification.withUser(username).and(folderSpecification.search(search.orElse(null))));
+	        } else {
+	            return folderRepository.findAll(folderSpecification.insideFolder(folderId.orElse(null)).and(folderSpecification.withUser(username)));
+	        }
+	}
+
+	@Override
+	public Optional<Folder> findById(Long folderId) {
+		// TODO Auto-generated method stub
+		return folderRepository.findById(folderId);
+	}
+
+	@Override
+	public void createFolder(String folderName, Optional<Long> folderId, String username) {
+		// TODO Auto-generated method stub
+		 Folder newFolder = new Folder();
+	        Optional<User> user = userRepository.findByEmail(username);
+	        user.ifPresent(newFolder::setUser);
+	        folderId.ifPresent(aLong -> {
+	            Optional<Folder> folder = folderRepository.findById(aLong);
+	            folder.ifPresent(newFolder::setParent);
+	        });
+	        newFolder.setFolderName(folderName);
+	        folderRepository.save(newFolder);
+	}
+
+	@Override
+	public void deleteFolder(Long deleteFolderId, String username) {
+		// TODO Auto-generated method stub
+		Optional<User> user = userRepository.findByEmail(username);
+        if (user.isPresent()) {
+            deleteFolderByFolderId(deleteFolderId);
+        }
+	}
+
+	@Override
+	public Long getPrevFolderId(Optional<Long> folderId, String name) {
+		// TODO Auto-generated method stub
+		if (folderId.isPresent()) {
+            Optional<Folder> folder = folderRepository.findById(folderId.get());
+            if (folder.isPresent() && folder.get().getParent() != null) {
+                return folder.get().getParent().getId();
+            }
+        }
+        return null;
+	}
+
+	@Override
+	public ResponseEntity<StreamingResponseBody> downloadFolder(Long folderId) {
+		// TODO Auto-generated method stub
+		 Folder folder = folderRepository.getOne(folderId);
+	        return ResponseEntity
+	                .ok()
+	                .header("Content-type", "application/octet-stream")
+	                .header("Content-disposition", "attachment; filename=\"" + folder.getFolderName() + ".zip" + "\"")
+	                .body(
+	                        out -> {
+	                            ZipOutputStream zipOutputStream = new ZipOutputStream(out);
+	                            zipFolder(zipOutputStream, folderId, folder.getFolderName());
+	                            zipOutputStream.flush();
+	                            zipOutputStream.close();
+	                        }
+	                );
+	}
+
+	@Override
+	public String shareViaEmail(Long folderId) {
+		// TODO Auto-generated method stub
+		 Folder folder = folderRepository.getOne(folderId);
+	        RandomFolderId randomFolderId;
+	        if (randomFolderIdRepository.getByFolder(folderId) == null) {
+	            randomFolderId = new RandomFolderId();
+	            randomFolderId.setFolder(folder);
+	            randomFolderIdRepository.save(randomFolderId);
+	        }
+	        randomFolderId = randomFolderIdRepository.getByFolder(folderId);
+	        String url = "http://databucket5-env.eba-ynxp9hzk.us-east-1.elasticbeanstalk.com/downloadSharedFolder/" + randomFolderId.getId();
+	        return url;
+	}
+
+	@Override
+	public ResponseEntity<StreamingResponseBody> downloadSharedFolder(Long id) {
+		 Folder folder = randomFolderIdRepository.getOne(id).getFolder();
+	        long folderId = folder.getId();
+	        return ResponseEntity
+	                .ok()
+	                .header("Content-type", "application/octet-stream")
+	                .header("Content-disposition", "attachment; filename=\"" + folder.getFolderName() + ".zip" + "\"")
+	                .body(
+	                        out -> {
+	                            ZipOutputStream zipOutputStream = new ZipOutputStream(out);
+	                            zipFolder(zipOutputStream, folderId, folder.getFolderName());
+	                            zipOutputStream.flush();
+	                            zipOutputStream.close();
+
+	                        }
+	                );
+	}
+
+    private void zipFolder(ZipOutputStream zipOutputStream, Long folderId, String parentFolderNamePath) throws IOException {
+        Folder folder = folderRepository.getOne(folderId);
+        List<Long> fileIds = folder.getFiles().stream().map(File::getId).collect(Collectors.toList());
+        List<Long> childFolderIds = folder.getChilds().stream().map(Folder::getId).collect(Collectors.toList());
+        for (Long fileId : fileIds) {
+            File file = fileRepository.getOne(fileId);
+            zipOutputStream.putNextEntry(new ZipEntry((parentFolderNamePath + "/" + file.getFileName())));
+            zipOutputStream.write(storageService.downloadFile(fileId.toString()));
+            zipOutputStream.closeEntry();
+        }
+        for (Long childFolderId : childFolderIds) {
+            Folder childFolder = folderRepository.getOne(childFolderId);
+            String parentFolderPath = parentFolderNamePath + "/" + childFolder.getFolderName();
+            zipFolder(zipOutputStream, childFolderId, parentFolderPath);
+        }
+    }
+
+    private void deleteFolderByFolderId(Long folderId) {
+        Folder folder = folderRepository.getOne(folderId);
+        List<Long> fileIds = folder.getFiles().stream().map(File::getId).collect(Collectors.toList());
+        List<Long> childFolderIds = folder.getChilds().stream().map(Folder::getId).collect(Collectors.toList());
+        for (Long fileId : fileIds) {
+            storageService.deleteFile(fileId.toString());
+        }
+        for (Long childFolderId : childFolderIds) {
+            deleteFolderByFolderId(childFolderId);
+        }
+        folderRepository.deleteById(folderId);
+    }
+	
+}

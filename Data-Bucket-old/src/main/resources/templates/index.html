@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>DataBucket</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="css/assets/images2.png" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <style>
+                   
+           .lead fw-normal {
+              paddding-left:100px;
+              float:right;
+           }                    
+            .img-fluid {
+               float: right;
+              padding-bottom: 135px;
+              padding-right: 5px;
+              /* transform: translate(50px,100px); */
+              /* transform: rotate(20deg);              */
+            } 
+            .firsttable{
+                 padding-left: 150px;
+                 }
+           .middletable{
+               display: table-cell;
+               padding-left: 300px;
+           }
+           .lasttable{
+            padding-left: 350px;
+           }
+          .firsttable .h5{
+             text-align: center;
+           }
+           .middletable .h5{
+             text-align: center;
+           }
+           .lasttable .h5{
+             text-align: center;
+           }
+           .h3{
+            text-align: center;
+           }
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%
+}
+
+		.foot{
+		position:absolute; 
+		bottom:0px;
+		height:200px;
+		left:0px; 
+		right:0px; 
+		overflow:hidden;
+		}
+
+        </style>
+    </head>
+    <body class="d-flex flex-column h-100">
+        <main class="flex-shrink-0">
+            <!-- Navigation-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+                <div class="container px-5">
+                    <a class="navbar-brand" href="index.html"><h4>Data-Bucket</h4></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" th:href="@{/about}">About</a></li>
+                            <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Contact</a></li>
+                           
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- Header-->
+            <!-- class="bg-dark py-5" -->
+            <header class="">
+                 
+                <div class="container px-5">
+                
+                    <div class="row gx-5 align-items-center justify-content-center p-5">
+                     <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5 p-0" src="https://img.freepik.com/free-vector/global-data-security-personal-data-security-cyber-data-security-online-concept-illustration-internet-security-information-privacy-protection_1150-37336.jpg?w=740&t=st=1664010411~exp=1664011011~hmac=5b818f3abd7419d73c51baf4674614a2af2fa4454a86236ad3d0d6085e78921b" alt="..." /></div>
+                        <div class="col-lg-8 col-xl-7 col-xxl-6">
+                            <div class="my-5 text-center text-xl-start ">
+                                <h1 class="display-3 fw-bolder text-black mb-2">DATA-BUCKET</h1>
+                                <p class="lead  fw-normal text-black-50 mb-4">Cloud Storage</p>
+                                <div class="my-5 text-center text-xl-start">
+                                    <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/login">Sign in</a>
+                                    <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/signup">Sign-up</a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                      <div>With DataBucket, upload & transfer photos, documents, and files to the cloud. Backup and sync photos, docs, and other files to the cloud storage and access them from any device, anywhere. With advanced sharing, easily share photos & documents to send anywhere with DataBucket.</div>
+                    </div>
+                </div>
+            </header>
+            <!-- Features section-->
+            <section class="py-5" id="features">
+                <div class="container px-5 my-5">
+                    <div class="card h-100 shadow border-0">
+                        <div class="col-lg-10 p-5 mb-5 mb-lg-0 text-center"><h2 class="fw-bolder mb-0 ml-5">A better way to start building.</h2></div>
+                        <div class="col-lg-14">
+                            <div class="row gx-5 row-cols-2 row-cols-md-2">
+                                <div class="col mb-5 ml-5 h-100">
+                                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-shield-lock"></i></div>
+                                    <h2 class="h5">Protect your work</h2>
+                                    <p class="mb-0">Keep all your important files securely and automatically backed up to the cloud.</p>
+                                </div>
+                                <div class="col mb-5 h-100">
+                                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-file-earmark-arrow-up"></i></div>
+                                    <h2 class="h5">Simplify file delivery</h2>
+                                    <p class="mb-0">Easily hand off large files, like video, graphics, and audio.</p>
+                                </div>
+                                <div class="col mb-5 mb-md-0 h-100">
+                                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-people-fill"></i></div>
+                                    <h2 class="h5">Collaborate with ease</h2>
+                                    <p class="mb-0">Stay connected with coworkers, family, and friends to keep projects moving forward.</p>
+                                </div>
+                                <div class="col h-100">
+                                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-lock"></i></div>
+                                    <h2 class="h5">Data security</h2>
+                                    <p class="mb-0">With the latest encryption technology we ensure all of your data is stored safely.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Testimonial section-->
+            <div class="py-5 bg-secondary">
+                <div class="container px-5 my-5 bg-light">
+                    <div class="row gx-5 justify-content-center">
+                        <div class="col-lg-10 col-xl-7">
+                            <div class="text-center">
+                                <div class="fs-4 mb-4 fst-italic">"Keep all your important data in a single, easy-to-access place. From photos to passwords and more, Data-Bucket has you covered."</div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Blog preview section-->
+            <section class="py-5">
+                <div class="container px-5 my-5">
+                    <div class="row gx-5 justify-content-center">
+                        <div class="col-lg-8 col-xl-6">
+                            <div class="text-center">
+                                <h2 class="fw-bolder">From Data-Bucket</h2>
+                                <p class="lead fw-normal text-muted mb-5">Data-Bucket keeps you or your team in sync by providing a centralized place to securely store documents, manage data access, and work together on projects.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gx-5">
+                        <div class="col-lg-4 mb-5">
+                            <div class="card h-100 shadow border-0">
+                                <img class="card-img-top" src="css/assets/mil.png" alt="..." />
+                                <div class="card-body p-4">
+                                    <!-- <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div> -->
+                                    <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">Have peace of mind that your info is secure</h5></a>
+                                    <p class="card-text mb-0">Keep your content safe with the latest encryption technology and security features. Use Vault for your most sensitive documents and seamlessly store all your Passwords within Data-Bucket.</p>
+                                </div>
+                                <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                                    <div class="d-flex align-items-end justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-5">
+                            <div class="card h-100 shadow border-0">
+                                <img class="card-img-top" src="css/assets/cloud-storage.png" alt="..." />
+                                <div class="card-body p-4">
+                                    <!-- <div class="badge bg-primary bg-gradient rounded-pill mb-2">Media</div> -->
+                                    <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">Centralize your cloud storage</h5></a>
+                                    <p class="card-text mb-0">Easily consolidate all your data in Data-Bucket. You can even automatically backup your computer to ensure you have everything you need, no matter what may happen.</p>
+                                </div>
+                                <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                                    <div class="d-flex align-items-end justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-5">
+                            <div class="card h-100 shadow border-0">
+                                <img class="card-img-top" src="css/assets/doc1.png" alt="..." />
+                                <div class="card-body p-4">
+                                    <!-- <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div> -->
+                                    <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">Work together from anywhere</h5></a>
+                                    <p class="card-text mb-0">Make it easier for your team to stay in sync, even when you're apart. Access the content, tools, & teammates you work with daily from one place—only in Data-Bucket.</p>
+                                </div>
+                                <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                                    <div class="d-flex align-items-end justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                           
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Call to action-->
+                    <aside class="bg-primary bg-gradient rounded-3 p-4 p-sm-5 mt-5">
+                        <div class="d-flex align-items-center justify-content-between flex-column flex-xl-row text-center text-xl-start">
+                            <div class="mb-4 mb-xl-0 l-4">
+                               <table>
+                                    <tr>
+                                        <td  class="firsttable">
+                                  <div>
+                                  <h3 class="h3"><b>Data-Bucket</b></h3>
+                                  <h5 class="h5">Features</h5>
+                                  <h5 class="h5">Security</h5>
+                                  <h5 class="h5">Advance access</h5>
+                                </div>
+                                    </td>
+                                    <td  class="middletable">
+                                <div>
+                                    <h3 class="h3"><b>Support</b></h3>
+                                    <h5 class="h5">Help Center</h5>
+                                    <h5 class="h5">Contact Us</h5>
+                                    <h5 class="h5">Privacy & Terms</h5>
+                                  </div></td>
+                                  <td class="lasttable">
+                                  <div >
+                                    <h3 class="h3"><b>Follow Us</b></h3>
+                                    <h5 class="h5"><i class="bi bi-twitter"></i></h5>
+                                    <h5 class="h5"><i class="bi bi-facebook"></i></h5>
+                                    <h5 class="h5"><i class="bi bi-instagram"></i></h5>
+                                  </div></td>
+                                </tr>
+                            </table>
+                            </div>
+                           
+                        </div>
+                    </aside>
+                </div>
+            </section>
+        </main>
+        <!-- Footer-->
+        <footer class="bg-dark py-4 mt-auto ">
+            <div class="container px-2" >
+                <div class="row align-items-center justify-content-between flex-column flex-sm-row ">
+                    <div class="col-auto"><div class="small m-0 text-white">Copyright&copy;Team28.DataBucket March2022</div></div>
+                    <div class="col-auto">
+                        <a class="link-light small" href="#!">Privacy</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="#!">Terms</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="#!">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">   
+    <div th:replace="fragments/header :: header"/>
+    <link rel="stylesheet" th:href="@{css/signup.css}" />
+    <title>Register || DataBucket</title>
+   
+    <style>
+						    	.btn-primary {
+						    color: white;
+						    background-color: #6606D7;
+						    border-color: #6606D7
+						}
+						
+						.btn-primary:hover {
+						    color: white;
+						    background-color: #42008F;
+						    border-color: #42008F
+						}
+						
+						.btn-primary:focus,
+						.btn-primary.focus {
+						    box-shadow: 0 0 0 .2rem rgba(91, 194, 194, 0.5)
+						}
+	</style>
+</head>
+<body>
+<!--navbar-->
+<div class="nav-bar">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
+        <div class="container">
+            <a class="navbar-brand" href="#">DataBucket</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                     <li class="nav-item" >
+                        <a class="nav-link" th:href="@{/}">Home</a>
+                    </li>      
+                                             
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+                    </li>
+                    <!-- show login only if user is not yet authenticated -->
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/login}">Sign In</a>
+                    </li>
+                    <!-- show My Blog only if user is authenticated -->
+                    
+                   
+                   
+
+                   
+                                                                                                           
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<br><br>
+<section class="vh-100" style="background-color: #eee;">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11">
+        <div class="card text-black" style="border-radius: 25px;">
+          <div class="card-body p-md-5">
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+				<div th:switch="${successMessage}">
+					<div th:case="'Success'" class="alert alert-success">
+							<strong>Success!</strong> User registered successfully.
+					</div>				    				        
+				</div>
+				
+                <form class="mx-1 mx-md-4" autocomplete="off" action="#" th:action="@{/signup}"
+                          th:object="${user}" method="post" role="form">
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                    <label class="form-label" for="form3Example1c">Name</label>
+                      <input type="text" id="form3Example1c" class="form-control"  th:field="*{name}" placeholder="Name" />
+                      
+                      <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="row text-danger px-3 mb-4 ">
+                      </label>
+                      
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                    <label class="form-label" for="form3Example3c">Email</label>
+                      <input type="email" id="form3Example3c" class="form-control" th:field="*{email}" placeholder="Email" />
+                      
+                      <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                   class="row text-danger px-3 mb-4 "><br>
+                      </label>
+                      
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                     <label class="form-label" for="form3Example4c">Password</label>
+                      <input type="password" id="form3Example4c" class="form-control"  th:field="*{password}" placeholder="Password" />
+                     
+                      <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                   class="row text-danger px-3 mb-4 ">
+                            </label>
+                      
+                    </div>
+                  </div>
+
+                  
+
+                  
+
+                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                  </div>
+					
+                </form>
+
+				<span>Already have an account, &nbsp;<a href="/login">sign in</a></span>
+              </div>
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                <img src="https://img.freepik.com/free-vector/cloud-information-storage-collocated-cloud-computing-data-synchronization-harmonization-available-accesssible-digital-connected-backup-vector-isolated-concept-metaphor-illustration_335657-2791.jpg?w=740&t=st=1663655156~exp=1663655756~hmac=f806df7378cc91c2483cec025804e705d0b7cbba79b77697df46895c667597c0"
+                  class="img-fluid" alt="Sample image">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
